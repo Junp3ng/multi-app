@@ -1,2 +1,22 @@
 include ':app'
+
+File multi_app_flutter_module_dir = getMultiAppFlutterModule()
+setBinding(new Binding([gradle: this]))
+evaluate(new File(
+  multi_app_flutter_module_dir,
+  '.android/include_flutter.groovy'
+))
 rootProject.name = "multi_app_android"
+
+include ':multi_app_flutter_module'
+project(':multi_app_flutter_module').projectDir = multi_app_flutter_module_dir
+
+File getMultiAppFlutterModule() {
+    Properties properties = new Properties()
+    properties.load((new File(settingsDir, "local.properties")).newDataInputStream())
+    String path = properties.get("multi_app_flutter_module.path");
+    if (path == null || path.isEmpty()) {
+        throw new IllegalArgumentException("请在local.properties中配置multi_app_flutter_module.path属性，multi_app_flutter_module.path=<flutter模块根目录地址>")
+    }
+    return new File(path)
+}
