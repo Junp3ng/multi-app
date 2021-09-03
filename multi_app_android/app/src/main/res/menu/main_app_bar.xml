@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_get_flutter_app_bundle_path"
+        android:title="@string/get_flutter_app_bundle"
+        app:showAsAction="never"
+        />
+    <item android:id="@+id/menu_open_preload"
+        android:title="@string/open_preload"
+        app:showAsAction="never"
+        />
+</menu>

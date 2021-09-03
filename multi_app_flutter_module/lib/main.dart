@@ -1,13 +1,25 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
-void main() => runApp(MyApp());
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+void main() => runApp(MyApp(name: "main",));
+
+@pragma("entry-point")
+void preload() => runApp(MyApp(name: "preload",));
 
 class MyApp extends StatelessWidget {
+
+  final name;
+
+  const MyApp({Key? key, this.name}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter $name',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -46,6 +58,15 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() {
+    MethodChannel channel = MethodChannel("sample/channel");
+    channel.setMethodCallHandler((call) async {
+      switch (call.method) {
+        case "say hello":
+          print("HELLO I AM DART");
+          break;
+      }
+    });
+    channel.invokeMethod("hello", null);
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
